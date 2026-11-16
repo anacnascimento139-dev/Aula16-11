@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn to Code</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+
+        <section class="left">
+            <h1>Learn to code by watching others</h1>
+            <p>See how experienced developers solve problems in real-time. Watching scripted tutorials is great, but understanding how developers think is invaluable.</p>
+        </section>
+
+        <section class="right">
+
+            <div class="offer">
+                <strong>Try it free 7 days</strong> then $20/mo. thereafter
+            </div>
+
+            <form class="form" id="signup-form" novalidate>
+
+                <div class="field">
+                    <input type="text" id="first-name" placeholder="First Name">
+                    <span class="error-icon" aria-hidden="true"></span>
+                    <span class="error-msg" role="alert"></span>
+                </div>
+
+                <div class="field">
+                    <input type="text" id="last-name" placeholder="Last Name">
+                    <span class="error-icon" aria-hidden="true"></span>
+                    <span class="error-msg" role="alert"></span>
+                </div>
+
+                <div class="field">
+                    <input type="email" id="email" placeholder="Email Address">
+                    <span class="error-icon" aria-hidden="true"></span>
+                    <span class="error-msg" role="alert"></span>
+                </div>
+
+                <div class="field">
+                    <input type="password" id="password" placeholder="Password">
+                    <span class="error-icon" aria-hidden="true"></span>
+                    <span class="error-msg" role="alert"></span>
+                </div>
+
+                <button type="submit">CLAIM YOUR FREE TRIAL</button>
+
+                <small>
+                    By clicking the button, you are agreeing to our
+                    <a href="#">Terms and Services</a>
+                </small>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script>
+        const form = document.getElementById('signup-form');
+
+        const fields = [
+            {
+                input: document.getElementById('first-name'),
+                label: 'First Name',
+                type: 'text'
+            },
+            {
+                input: document.getElementById('last-name'),
+                label: 'Last Name',
+                type: 'text'
+            },
+            {
+                input: document.getElementById('email'),
+                label: 'Email Address',
+                type: 'email'
+            },
+            {
+                input: document.getElementById('password'),
+                label: 'Password',
+                type: 'text'
+            }
+        ];
+
+        function isValidEmail(value) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        }
+
+        function validateField(field) {
+            const { input, label, type } = field;
+            const wrapper = input.closest('.field');
+            const errorMsg = wrapper.querySelector('.error-msg');
+            const value = input.value.trim();
+
+            if (value === '') {
+                setError(input, wrapper, errorMsg, `${label} cannot be empty`);
+                return false;
+            }
+
+            if (type === 'email' && !isValidEmail(value)) {
+                setError(input, wrapper, errorMsg, 'Looks like this is not an email');
+                return false;
+            }
+
+            clearError(input, wrapper, errorMsg);
+            return true;
+        }
+
+        function setError(input, wrapper, errorMsg, message) {
+            input.classList.add('input-error');
+            wrapper.classList.add('has-error');
+            errorMsg.textContent = message;
+        }
+
+        function clearError(input, wrapper, errorMsg) {
+            input.classList.remove('input-error');
+            wrapper.classList.remove('has-error');
+            errorMsg.textContent = '';
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const allValid = fields.map(validateField).every(Boolean);
+            if (allValid) {
+                form.reset();
+            }
+        });
+    </script>
+
+</body>
+</html>
